@@ -1,4 +1,4 @@
-use crate::pages::{About, Home};
+use crate::pages::{About, Modify, Home};
 use yew::prelude::*;
 use yew_router::{prelude::*, route::Route, switch::Permissive, Switch};
 use yew_styles::{
@@ -19,6 +19,8 @@ pub struct App {
 pub enum AppRouter {
     #[to = "/!"]
     RootPath,
+    #[to = "/modify!"]
+    ModifyPath,
     #[to = "/about!"]
     AboutPath,
     #[to = "/page-not-found"]
@@ -74,10 +76,16 @@ impl Component for App {
                             onclick_signal = self.link.callback(|_| Msg::ChangeNavbarItem(0))
                             >
                             <RouterAnchor<AppRouter>route=AppRouter::RootPath>{"Home"}</RouterAnchor<AppRouter>></NavbarItem>
-                        <NavbarItem
+                            <NavbarItem
                             class_name="navbar-route"
                             active = self.navbar_items[1]
                             onclick_signal = self.link.callback(|_| Msg::ChangeNavbarItem(1))
+                            >
+                            <RouterAnchor<AppRouter>route=AppRouter::ModifyPath>{"Modify"}</RouterAnchor<AppRouter>></NavbarItem>
+                        <NavbarItem
+                            class_name="navbar-route"
+                            active = self.navbar_items[2]
+                            onclick_signal = self.link.callback(|_| Msg::ChangeNavbarItem(2))
                             >
                             <RouterAnchor<AppRouter>route=AppRouter::AboutPath>{"About"}</RouterAnchor<AppRouter>></NavbarItem>
                     </NavbarContainer>
@@ -90,6 +98,9 @@ impl Component for App {
                             },
                             AppRouter::AboutPath => html!{
                                 <About/>
+                            },
+                            AppRouter::ModifyPath => html!{
+                                <Modify/>
                             },
                             AppRouter::PageNotFound(Permissive(None)) => html!{"Page not found"},
                             AppRouter::PageNotFound(Permissive(Some(missed_route))) => html!{format!("Page '{}' not found", missed_route)}

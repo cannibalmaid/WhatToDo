@@ -4,18 +4,33 @@ use yew_styles::layouts::{
     item::{Item, ItemLayout},
 };
 
-pub struct Home;
+// pub struct Home;
+
+pub struct Home {
+    link: ComponentLink<Self>,
+    value: i64,
+}
+
+pub enum Msg {
+    AddOne,
+}
 
 impl Component for Home {
-    type Message = ();
+    type Message = Msg;
     type Properties = ();
 
-    fn create(_: Self::Properties, _: ComponentLink<Self>) -> Self {
-        Home {}
+    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
+        Home {
+            link,
+            value: 0,
+        }
     }
 
-    fn update(&mut self, _: Self::Message) -> ShouldRender {
-        false
+    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+        match msg {
+            Msg::AddOne => self.value += 1
+        }
+        true
     }
 
     fn change(&mut self, _: Self::Properties) -> ShouldRender {
@@ -23,25 +38,19 @@ impl Component for Home {
     }
 
     fn view(&self) -> Html {
+        
         html! {
-            <Container direction=Direction::Row wrap=Wrap::Wrap class_name="content">
+            <Container id="task" direction=Direction::Row wrap=Wrap::Nowrap class_name="content">
                 <Item layouts=vec!(ItemLayout::ItXs(12))>
-                    <h2>{"Yew Parcel Template"}</h2>
+                    <h1>{"Do This"}</h1>
+                    <i class="fas fa-book fa-7x"></i>
+                    <h5>{"Manga Reading Sesh!"}</h5>
                 </Item>
-                <Item layouts=vec!(ItemLayout::ItXs(12))>
-                    <h3>{"Libraries used in this template"}</h3>
-                </Item>
-                <Item layouts=vec!(ItemLayout::ItXs(12))>
-                    <ul>
-                        <li><a href="https://yew.rs" target="_blank">{"yew.rs"}</a>{" : rustwasm frontent framwork"}</li>
-                        <li><a href="https://github.com/spielrs/yew_styles" target="_blank">
-                            {"yew_styles"}</a>{" : styles framework for yew"}</li>
-                        <li><a href="https://parceljs.org/" target="_blank">
-                            {"parceljs"}</a>{" : builder js library"}</li>
-                        <li><a href="https://github.com/paulmillr/chokidar" target="_blank">
-                        {"chokidar"}</a>{" : watcher js library"}</li>
-                    </ul>
-                </Item>
+            //     <div>
+            //     <button onclick=self.link.callback(|_| Msg::AddOne)>{ "+1" }</button>
+            //     <p>{ self.value }</p>
+            // </div>
+            // <input type="text"/>
             </Container>
         }
     }

@@ -5,3 +5,9 @@ crate/target
 crate/Cargo.lock
 crate/wasm-pack.log
 .cache
+.bin
+.github
+.vscode
+package-lock.json
+wasm_pack_cmd
+wasm-builder.js
